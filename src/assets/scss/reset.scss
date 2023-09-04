@@ -1,0 +1,63 @@
+*,
+*::before,
+*::after {
+   box-sizing: border-box;
+   margin: 0;
+   padding: 0;
+}
+
+body {
+   display: flex;
+   flex-direction: column;
+   font-family: 'Jost', sans-serif;
+   font-weight: 400;
+   font-size: 16px;
+   line-height: 23px;
+   min-height: 100vh;
+   color: var(--color-7);
+   background-color: var(--color-6);
+}
+
+img {
+   max-width: 100%;
+   height: auto;
+}
+
+input,
+textarea,
+select {
+   font-family: inherit;
+}
+
+a{
+   line-height: 23px;
+}
+
+h1 {
+   font-size: 24px;
+   font-weight: 700;
+   line-height: 35px;
+   letter-spacing: -0.333px;
+}
+
+h2 {
+   font-size: 20px;
+   font-weight: 700;
+   line-height: 29px;
+   letter-spacing: -0.25px;
+}
+
+h3 {
+   @include h3;
+}
+
+h4 {
+   font-size: 14px;
+   font-weight: 700;
+   line-height: 20px;
+   letter-spacing: -0.2px;
+}
+
+
+
+

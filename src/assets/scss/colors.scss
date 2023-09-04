@@ -1,0 +1,51 @@
+:root {
+   --color-1: #AD1FEA;
+   --color-2: #4661E6;
+   --color-3: #373F68;
+   --color-white: #FFFFFF;
+   --color-5: #F2F4FF;
+   --color-6: #F7F8FD;
+   --color-7: #3A4374;
+   --color-8: #647196;
+   --color-9: #F49F85;
+   --color-10: #62BCFA;
+   --color-11: #8C92B3;
+
+   --color-text-foreground: #3A4374;
+   --color-text-muted-foreground: #647196;
+
+   --color-interactive-primary-background: #AD1FEA;
+   --color-interactive-primary-foreground: #FFF;
+   --color-interactive-primary-hover-background: #C75AF6;
+
+   --color-interactive-info-background: #4661E6;
+   --color-interactive-info-foreground: #FFF;
+   --color-interactive-info-hover-background: #7C91F9;
+
+   --color-interactive-secondary-background: #3A4374;
+   --color-interactive-secondary-foreground: #FFF;
+   --color-interactive-secondary-hover-background: #656EA3;
+
+   --color-interactive-danger-background: #D73737;
+   --color-interactive-danger-foreground: #FFF;
+   --color-interactive-danger-hover-background: #E98888;
+
+   --color-interactive-translucent-tag-foreground: var(--color-2);
+   --color-interactive-translucent-vote-foreground: var(--color-7);
+   --color-interactive-translucent-background: #F2F4FF;
+   --color-interactive-translucent-hover-background: #CFD7FF;
+   --color-interactive-translucent-active-foreground: #FFFFFF;
+   --color-interactive-translucent-active-background: #4661E6;
+
+   --color-interactive-link-background: transparent;
+   --color-interactive-link-foreground: #647196;
+
+   --color-interactive-link-filled-background: #373F68;
+   --color-interactive-link-filled-foreground: #FFF;
+
+   --color-input-foreground: #3A4374;
+   --color-input-background: #F7F8FD;
+   --color-input-active-border: #4661E6;
+   --color-input-error-foreground: #D73737;
+   --color-input-error-border: #D73737;
+}
