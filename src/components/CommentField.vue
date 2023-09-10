@@ -17,9 +17,7 @@ export default defineComponent({
    },
    methods: {
       submit() {
-         this.$refs.provider
-            .validate()
-            .then(({valid}) => {
+         this.$refs.provider?.validate()?.then(({ valid }) => {
                if (valid) {
                   this.$emit('submit')
                }

@@ -26,7 +26,7 @@ export default defineComponent({
    },
    computed: {
       categories() {
-         return Object.values(Category)
+         return Object.values(Category).filter((item) => item !== Category.All)
       },
    },
 })

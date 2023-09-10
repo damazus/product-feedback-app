@@ -17,16 +17,16 @@ export interface ProductRequest {
    title: string,
    category: string,
    upvotes: number,
-   status: string,
+   status: StatusEnum,
    description: string,
    comments?: Comment[]
 }
 
 export enum StatusEnum {
-   Suggestion = 'Suggestion',
-   Planned = 'Planned',
-   InProgress = 'In-progress',
-   Live = 'Live',
+   Suggestion = 'suggestion',
+   Planned = 'planned',
+   InProgress = 'in-progress',
+   Live = 'live',
 }
 
 export interface StatusByCount{

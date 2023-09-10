@@ -1,20 +1,20 @@
 <script lang="ts">
 import { defineComponent } from 'vue'
 import HeaderComponent from '@/components/HeaderComponent.vue'
-import FeedbackItem from '@/components/FeedbackItem.vue'
+import ProductRequestItem from '@/components/ProductRequestItem.vue'
 import { useFeedbackStore } from '@/stores/feedback'
 import { mapState, mapActions } from "pinia"
 import ButtonComponent, { ButtonTheme } from "@/components/ButtonComponent.vue"
 import NotFound from "@/components/NotFound.vue"
 import StatusInfo from "@/components/StatusInfo.vue"
-import { Category } from '@/types'
+import {Category, ProductRequest} from '@/types'
 import {ROUTE_NAMES} from "@/router";
 
 export default defineComponent({
    components: {
       ButtonComponent,
       HeaderComponent,
-      FeedbackItem,
+      ProductRequestItem,
       NotFound,
       StatusInfo,
    },
@@ -28,16 +28,19 @@ export default defineComponent({
       ...mapState(useFeedbackStore, [
          'productRequestsFiltered',
          'status',
-         'filters'
+         'filters',
       ]),
       categories(){
          return Object.values(Category)
       },
    },
    methods: {
-      ...mapActions(useFeedbackStore, ['setFilters']),
+      ...mapActions(useFeedbackStore, ['setFilters', 'upVote']),
       toggleCategory(category: string){
          this.setFilters(category)
+      },
+      onUpVote(productRequest: ProductRequest){
+         this.upVote(productRequest)
       }
    },
 })
@@ -86,10 +89,11 @@ export default defineComponent({
          <div class="home-view__main">
             <HeaderComponent/>
             <div v-if="productRequestsFiltered.length" class="home-view__feedbacks">
-               <FeedbackItem
+               <ProductRequestItem
                   v-for="item in productRequestsFiltered"
                   :item="item"
                   :key="item.id"
+                  @up-vote="onUpVote"
                />
             </div>
             <NotFound v-else class="home-view__not-found"/>

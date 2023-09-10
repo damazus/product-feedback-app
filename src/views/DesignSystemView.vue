@@ -20,9 +20,6 @@ export default defineComponent({
          category: ''
       }
    },
-   mounted() {
-      this.$refs.multiselect.activate()
-   }
 })
 </script>
 

@@ -1,14 +1,15 @@
 <script lang="ts">
 import {defineComponent} from 'vue'
-import {mapState} from 'pinia'
+import {mapActions, mapState} from 'pinia'
 import ButtonComponent, {ButtonTheme} from '@/components/ButtonComponent.vue'
-import FeedbackItem from '@/components/FeedbackItem.vue'
+import ProductRequestItem from '@/components/ProductRequestItem.vue'
 import CommentItem from '@/components/CommentItem.vue'
 import {useFeedbackStore} from '@/stores/feedback'
 import ButtonGoBack from "@/components/ButtonGoBack.vue";
 import {ROUTE_NAMES} from "@/router";
 import TextField from "@/components/TextField.vue";
 import {ValidationProvider, ValidationObserver} from 'vee-validate';
+import type {ProductRequest} from "@/types";
 
 export default defineComponent({
    components: {
@@ -17,13 +18,14 @@ export default defineComponent({
       TextField,
       ButtonGoBack,
       ButtonComponent,
-      FeedbackItem,
+      ProductRequestItem,
       CommentItem,
    },
    data(){
       return{
          ROUTE_NAMES,
          ButtonTheme,
+         characterMax: 250,
          comment: ''
       }
    },
@@ -32,20 +34,37 @@ export default defineComponent({
       id(){
          return parseInt(this.$route.params.id)
       },
-      item(){
+      item(): ProductRequest | undefined{
          return this.productRequest(this.id)
+      },
+      commentTitle(): string{
+         return (this.item?.comments?.length || 0) > 1 ? 'Comments' : 'Comment'
+      },
+      charactersLeft(): number{
+         return this.characterMax - this.comment.length
       }
    },
    methods: {
-      onSubmit(){
-         this.$refs.observer.validate()
+      ...mapActions(useFeedbackStore, ['upVote', 'addComment']),
+      onComment(){
+         this.$refs.observer.validate().then((valid) => {
+            if(valid){
+               console.log('onComment', this.id, this.comment)
+               this.addComment(this.id, this.comment)
+               this.comment = ''
+               this.$refs.observer.reset()
+            }
+         })
+      },
+      onUpVote(productRequest: ProductRequest){
+         this.upVote(productRequest)
       }
    }
 })
 </script>
 
 <template>
-   <div class="feedback-detail-view">
+   <div class="feedback-detail-view" v-if="item">
       <div class="feedback-detail-view__header">
          <ButtonGoBack
             class="feedback-detail-view__button-back"
@@ -56,11 +75,11 @@ export default defineComponent({
             :theme="ButtonTheme.Info"
             :to="{ name: ROUTE_NAMES.feedbackForm, params: { 'id': id.toString() } }">Edit Feedback</ButtonComponent>
       </div>
-      <FeedbackItem :item="item"/>
+      <ProductRequestItem :item="item"  @up-vote="onUpVote"/>
       <div class="feedback-detail-view__comment-container">
-         <h3 class="feedback-detail-view__comment-container-title">4 Comments</h3>
+         <h3 class="feedback-detail-view__comment-container-title">{{ item.comments?.length || 0 }} {{ commentTitle }}</h3>
 
-         <div class="feedback-detail-view__comments">
+         <div v-if="item.comments?.length" class="feedback-detail-view__comments">
             <CommentItem
                class="feedback-detail-view__comment"
                v-for="comment in item.comments"
@@ -68,9 +87,10 @@ export default defineComponent({
                :comment="comment"
             />
          </div>
+         <div v-else class="feedback-detail-view__empty-comment">Vous n'avez aucun commentaire</div>
       </div>
-      <ValidationObserver slim ref="observer" >
-         <form class="feedback-detail-view__form" @submit.prevent="onSubmit">
+      <ValidationObserver slim ref="observer">
+         <form class="feedback-detail-view__form" @submit.prevent="onComment">
             <ValidationProvider
                slim
                name="comment"
@@ -80,6 +100,7 @@ export default defineComponent({
                <TextField
                   v-model="comment"
                   :errors="errors"
+                  :maxlength="characterMax"
                   type="textarea"
                   label="Add Comment"
                   placeholder="Type your comment here"
@@ -87,7 +108,7 @@ export default defineComponent({
                />
             </ValidationProvider>
             <div class="feedback-detail-view__form-footer">
-               <span class="feedback-detail-view__form-instruction">250 Characters left</span>
+               <span class="feedback-detail-view__form-instruction">{{ charactersLeft }} Characters left</span>
                <ButtonComponent type="submit" class="feedback-detail-view__form-button">Post Comment</ButtonComponent>
             </div>
          </form>
@@ -123,13 +144,14 @@ export default defineComponent({
       margin-bottom: 28px;
    }
 
+   &__empty-comment{
+      color: var(--color-8);
+      text-align: center;
+   }
+
    &__form-text-field{
       width: 100%;
       margin-bottom: 16px;
-
-      .text-field__textarea{
-         min-height: 80px;
-      }
    }
 
    &__form-footer{

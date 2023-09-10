@@ -66,7 +66,7 @@ export default defineComponent({
       tag(): string {
          return this.to ? 'router-link' : 'button'
       }
-   }
+   },
 })
 </script>
 

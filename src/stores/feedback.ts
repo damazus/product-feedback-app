@@ -1,9 +1,10 @@
 import {defineStore} from 'pinia'
-import data from '@/data.json'
 import type {ProductRequest, User, Filter, StatusItems, StatusByCount} from "@/types";
 import {Category, StatusEnum} from "@/types";
+import Vue from "vue";
+import {id} from "@/utils";
 
-interface State {
+export interface FeedbackState {
    currentUser: User | null,
    productRequests: ProductRequest[]
    filters: Filter
@@ -11,9 +12,9 @@ interface State {
 
 export const useFeedbackStore = defineStore({
    id: 'feedback',
-   state: (): State => ({
-      currentUser: data.currentUser,
-      productRequests: data.productRequests,
+   state: (): FeedbackState => ({
+      currentUser: null,
+      productRequests: [],
       filters: {
          category: Category.All,
          status: ''
@@ -76,6 +77,56 @@ export const useFeedbackStore = defineStore({
    actions: {
       setFilters(category: string){
          this.filters.category = category
+      },
+      add(productRequest: ProductRequest){
+         productRequest.comments = []
+         this.productRequests.unshift(productRequest)
+      },
+      edit(productRequest: ProductRequest){
+         const index = this.productRequests.findIndex((item: ProductRequest) => item.id === productRequest.id)
+
+         if(index !== -1){
+            let productRequestFound = this.productRequests[index]
+            productRequestFound = {
+               ...productRequestFound,
+               ...productRequest
+            }
+
+            Vue.set(this.productRequests, index, productRequestFound)
+         }
+      },
+      upVote(productRequest: ProductRequest){
+         const index = this.productRequests.findIndex((item) => item.id === productRequest.id)
+
+         if(index !== -1){
+            const itemFound = this.productRequests[index]
+            itemFound.upvotes += 1
+            this.productRequests.splice(index, 1, itemFound)
+         }
+      },
+      delete(id: number){
+         const index = this.productRequests.findIndex((item: ProductRequest) => item.id === id)
+
+         this.productRequests.splice(index, 1)
+      },
+      addComment(productRequestId: number, content: string){
+         const index = this.productRequests.findIndex((item) => item.id === productRequestId)
+
+         if(index !== -1 && this.currentUser){
+            const itemFound = this.productRequests[index]
+
+            if (!itemFound.comments){
+               itemFound.comments = []
+            }
+
+            itemFound.comments.unshift({
+               id: id(),
+               content,
+               user: this.currentUser
+            })
+
+            this.productRequests.splice(index, 1, itemFound)
+         }
       }
    }
 })

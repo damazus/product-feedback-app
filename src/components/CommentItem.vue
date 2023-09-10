@@ -72,9 +72,9 @@ export default defineComponent({
       </div>
       <div v-if="comment.replies?.length" class="comment-item__replies">
          <CommentItem
-            v-for="comment in comment.replies"
-            :key="comment.id"
-            :comment="comment"
+            v-for="(reply, index) in comment.replies"
+            :key="index"
+            :comment="reply"
          />
       </div>
    </div>
@@ -85,18 +85,21 @@ export default defineComponent({
    --user-image-size: 40px;
    --gap: 32px;
 
-   &:not(&--child){
-      &:first-child{
-         padding-bottom: var(--gap);
-      }
+   &:not(:first-child, :last-child){
+      padding-top: var(--gap);
+      padding-bottom: var(--gap);
+   }
 
-      &:not(:first-child){
-         padding-top: var(--gap);
-      }
+   &:first-child{
+      padding-bottom: var(--gap);
+   }
 
-      &:not(:last-child){
-         border-bottom: 1px solid rgba(140, 146, 179, 0.25);
-      }
+   &:last-child{
+      padding-top: var(--gap);
+   }
+
+   &:not(:last-child){
+      border-bottom: 1px solid rgba(140, 146, 179, 0.25);
    }
 
    &__main {
@@ -109,6 +112,10 @@ export default defineComponent({
       width: var(--user-image-size);
       height: var(--user-image-size);
       border-radius: 50%;
+   }
+
+   &__container{
+      flex: 1;
    }
 
    &__header {

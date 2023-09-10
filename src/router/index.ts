@@ -1,10 +1,5 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '@/views/HomeView.vue'
-import FeedbackFormView from '@/views/FeedbackFormView.vue'
-import DesignSystemView from '@/views/DesignSystemView.vue'
-import FeedbackDetailView from '@/views/FeedbackDetailView.vue'
-import RoadmapView from '@/views/RoadmapView.vue'
 
 Vue.use(VueRouter)
 
@@ -23,27 +18,27 @@ const router = new VueRouter({
       {
          path: '/',
          name: ROUTE_NAMES.home,
-         component: HomeView
+         component: () => import('@/views/HomeView.vue'),
       },
       {
          path: '/feedbacks/:id',
          name: ROUTE_NAMES.feedbackDetail,
-         component: FeedbackDetailView
+         component: () => import('@/views/FeedbackDetailView.vue'),
       },
       {
          path: '/feedback-form/:id?',
          name: ROUTE_NAMES.feedbackForm,
-         component: FeedbackFormView
+         component: () => import('@/views/FeedbackFormView.vue'),
       },
       {
          path: '/roadmap',
          name: ROUTE_NAMES.roadmap,
-         component: RoadmapView
+         component: () => import('@/views/RoadmapView.vue'),
       },
       {
          path: '/design-system',
          name: ROUTE_NAMES.designSystem,
-         component: DesignSystemView
+         component: () => import('@/views/DesignSystemView.vue'),
       },
    ]
 })

@@ -33,7 +33,7 @@ export default defineComponent({
 </script>
 
 <template>
-   <div class="roadmap-item">
+   <div class="roadmap-item" :class="[`roadmap-item--${item.status}`]">
       <StatusInfo :name="item.status" class="roadmap-item__status"/>
       <div class="roadmap-item__main">
          <div class="roadmap-item__info">
@@ -53,7 +53,10 @@ export default defineComponent({
 @use '@/assets/scss/mixins';
 
 .roadmap-item{
+   --highlight-color: var(--color-white);
+
    position: relative;
+   width: 100%;
    padding: 32px;
    border-radius: 5px;
    background-color: var(--color-white);
@@ -66,7 +69,19 @@ export default defineComponent({
       right: 0;
       height: 6px;
       border-radius: 5px 5px 0 0;
-      background: #F49F85;
+      background: var(--highlight-color);
+   }
+
+   &--planned{
+      --highlight-color: var(--color-9);
+   }
+
+   &--in-progress{
+      --highlight-color: var(--color-1);
+   }
+
+   &--live{
+      --highlight-color: var(--color-10);
    }
 
    &__status{

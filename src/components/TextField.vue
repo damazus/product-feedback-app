@@ -52,6 +52,7 @@ export default defineComponent({
          v-model="modelValue"
          :placeholder="placeholder"
          class="text-field__textarea"
+         v-bind="$attrs"
       />
       <input
          v-else
@@ -59,6 +60,7 @@ export default defineComponent({
          :type="type"
          :placeholder="placeholder"
          class="text-field__input"
+         v-bind="$attrs"
       />
       <span class="text-field__error" v-if="errors.length">{{ errors[0] }}</span>
    </label>
@@ -99,7 +101,7 @@ export default defineComponent({
    }
 
    &__textarea{
-      min-height: 96px;
+      min-height: 98px;
    }
 
    &__error{

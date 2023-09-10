@@ -5,6 +5,7 @@ import { mapState } from "pinia"
 import BaseField from '@/components/BaseField.vue'
 import BaseMultiselect from '@/components/BaseMultiselect.vue'
 import { capitalize } from "@/utils";
+import {StatusEnum} from "@/types";
 
 export default defineComponent({
    name: 'CategoryMultiselect',
@@ -27,11 +28,8 @@ export default defineComponent({
       },
    },
    computed: {
-      ...mapState(useFeedbackStore, [
-         'status',
-      ]),
       statusNames(): string[]{
-         return this.status.map((item) => capitalize(item.name))
+         return Object.values(StatusEnum)
       }
    },
 })

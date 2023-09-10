@@ -74,6 +74,10 @@ export default defineComponent({
       gap: 30px;
    }
 
+   &__status-name{
+      text-transform: capitalize;
+   }
+
    &__status-description{
       color: var(--color-8);
       margin-bottom: 32px;

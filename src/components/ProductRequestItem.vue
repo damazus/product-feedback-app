@@ -24,7 +24,7 @@ export default defineComponent({
    },
    methods: {
       upVote(){
-         console.log('upVote')
+         this.$emit('up-vote', this.item)
       }
    }
 })
@@ -73,10 +73,12 @@ export default defineComponent({
       display: flex;
       justify-content: space-between;
       align-items: center;
+      gap: 24px;
    }
 
    &__title{
       @include mixins.h3;
+      display: block;
       color: var(--color-7);
       text-decoration: none;
       margin-bottom: 4px;
@@ -87,8 +89,9 @@ export default defineComponent({
    }
 
    &__description{
-      color: var(--color-8);
+      text-align: justify;
       margin-bottom: 12px;
+      color: var(--color-8);
    }
 
    &--no-comment{

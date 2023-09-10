@@ -1,6 +1,5 @@
 <script lang="ts">
-import {defineComponent, type PropType} from 'vue'
-import type {Status} from "@/types";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
    name: 'StatusInfo',
